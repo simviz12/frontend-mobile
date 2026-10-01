@@ -16,6 +16,9 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../features/auth/data/auth_repository_impl.dart' as _i781;
 import '../../features/auth/domain/auth_repository.dart' as _i996;
 import '../../features/auth/domain/login_user.dart' as _i645;
+import '../../features/commands/data/command_repository_impl.dart' as _i931;
+import '../../features/commands/domain/command_repository.dart' as _i106;
+import '../../features/commands/domain/send_command.dart' as _i1007;
 import '../../features/devices/data/device_repository_impl.dart' as _i626;
 import '../../features/devices/domain/device_repository.dart' as _i960;
 import '../../features/devices/domain/device_usecases.dart' as _i589;
@@ -30,7 +33,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i960.DeviceRepository>(
       () => _i626.DeviceRepositoryImpl(),
     );
+    gh.lazySingleton<_i106.CommandRepository>(
+      () => _i931.CommandRepositoryImpl(),
+    );
     gh.lazySingleton<_i996.AuthRepository>(() => _i781.AuthRepositoryImpl());
+    gh.factory<_i1007.SendCommand>(
+      () => _i1007.SendCommand(gh<_i106.CommandRepository>()),
+    );
     gh.factory<_i645.LoginUser>(
       () => _i645.LoginUser(gh<_i996.AuthRepository>()),
     );

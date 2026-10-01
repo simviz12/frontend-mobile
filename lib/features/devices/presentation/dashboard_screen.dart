@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'devices_notifier.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -118,7 +119,7 @@ class DashboardScreen extends ConsumerWidget {
                       ],
                     ),
                     onTap: () {
-                      // TODO: Navigate to Quick Actions (Day 8)
+                      context.push('/quick-actions/\${device.id}', extra: device.name);
                     },
                   ),
                 );
