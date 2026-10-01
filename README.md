@@ -1,17 +1,20 @@
-# guardian_mobile
+# Guardian Mobile
 
-A new Flutter project.
+Guardian Mobile is a dual-mode Flutter application designed for device protection and remote management.
+Currently developed for Android as the primary target.
 
-## Getting Started
+## Features Completed
+- **Project Setup (Day 1):** Clean Architecture structure, GitHub Actions, basic dependencies.
+- **Core Theme (Day 2):** Implementation of `DESIGN.md` tokens (Plus Jakarta Sans, Primary `#006948`, Alert `#b61722`), Dependency Injection with `get_it` and routing with `go_router`.
 
-This project is a starting point for a Flutter application.
+## How to Run
+1. Ensure Flutter (latest stable) is installed.
+2. Run `flutter pub get`.
+3. Run `dart run build_runner build -d` to generate files.
+4. Run `flutter run`.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Testing
+Run tests using:
+\`\`\`bash
+flutter test
+\`\`\`
