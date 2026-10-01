@@ -15,8 +15,10 @@ class DevicesState with _$DevicesState {
 
 class DevicesNotifier extends StateNotifier<DevicesState> {
   final ListDevices _listDevices;
+  final RenameDevice _renameDevice;
+  final UnlinkDevice _unlinkDevice;
 
-  DevicesNotifier(this._listDevices) : super(const DevicesState.loading()) {
+  DevicesNotifier(this._listDevices, this._renameDevice, this._unlinkDevice) : super(const DevicesState.loading()) {
     loadDevices();
   }
 
@@ -29,8 +31,30 @@ class DevicesNotifier extends StateNotifier<DevicesState> {
       state = DevicesState.error(e.toString());
     }
   }
+
+  Future<void> rename(String id, String newName) async {
+    try {
+      await _renameDevice(id, newName);
+      await loadDevices(); // Reload to get updated list
+    } catch (e) {
+      // Show error ideally
+    }
+  }
+
+  Future<void> unlink(String id) async {
+    try {
+      await _unlinkDevice(id);
+      await loadDevices();
+    } catch (e) {
+      // Show error ideally
+    }
+  }
 }
 
 final devicesNotifierProvider = StateNotifierProvider<DevicesNotifier, DevicesState>((ref) {
-  return DevicesNotifier(getIt<ListDevices>());
+  return DevicesNotifier(
+    getIt<ListDevices>(),
+    getIt<RenameDevice>(),
+    getIt<UnlinkDevice>(),
+  );
 });

@@ -70,7 +70,53 @@ class DashboardScreen extends ConsumerWidget {
                         Text(isConnected ? 'Conectado ahora' : 'Última conexión: hace poco'),
                       ],
                     ),
-                    trailing: const Icon(Icons.chevron_right),
+                    trailing: PopupMenuButton<String>(
+                      onSelected: (value) async {
+                        if (value == 'rename') {
+                          final controller = TextEditingController(text: device.name);
+                          final newName = await showDialog<String>(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Renombrar dispositivo'),
+                              content: TextField(
+                                controller: controller,
+                                decoration: const InputDecoration(hintText: 'Nuevo nombre'),
+                              ),
+                              actions: [
+                                TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+                                ElevatedButton(onPressed: () => Navigator.pop(ctx, controller.text), child: const Text('Guardar')),
+                              ],
+                            ),
+                          );
+                          if (newName != null && newName.isNotEmpty) {
+                            ref.read(devicesNotifierProvider.notifier).rename(device.id, newName);
+                          }
+                        } else if (value == 'unlink') {
+                          final confirm = await showDialog<bool>(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: const Text('Desvincular dispositivo'),
+                              content: const Text('¿Estás seguro de que deseas desvincular este dispositivo? Perderás el acceso remoto.'),
+                              actions: [
+                                TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pop(ctx, true),
+                                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+                                  child: const Text('Desvincular'),
+                                ),
+                              ],
+                            ),
+                          );
+                          if (confirm == true) {
+                            ref.read(devicesNotifierProvider.notifier).unlink(device.id);
+                          }
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(value: 'rename', child: Text('Renombrar')),
+                        const PopupMenuItem(value: 'unlink', child: Text('Desvincular')),
+                      ],
+                    ),
                     onTap: () {
                       // TODO: Navigate to Quick Actions (Day 8)
                     },

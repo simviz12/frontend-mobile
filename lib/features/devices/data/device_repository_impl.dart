@@ -35,4 +35,19 @@ class DeviceRepositoryImpl implements DeviceRepository {
     final device = _mockDevices.firstWhere((d) => d.id == id, orElse: () => throw Exception('Dispositivo no encontrado'));
     return device;
   }
+
+  @override
+  Future<void> renameDevice(String id, String newName) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    final index = _mockDevices.indexWhere((d) => d.id == id);
+    if (index != -1) {
+      _mockDevices[index] = _mockDevices[index].copyWith(name: newName);
+    }
+  }
+
+  @override
+  Future<void> unlinkDevice(String id) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    _mockDevices.removeWhere((d) => d.id == id);
+  }
 }

@@ -40,6 +40,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i589.GetDevice>(
       () => _i589.GetDevice(gh<_i960.DeviceRepository>()),
     );
+    gh.factory<_i589.RenameDevice>(
+      () => _i589.RenameDevice(gh<_i960.DeviceRepository>()),
+    );
+    gh.factory<_i589.UnlinkDevice>(
+      () => _i589.UnlinkDevice(gh<_i960.DeviceRepository>()),
+    );
     return this;
   }
 }

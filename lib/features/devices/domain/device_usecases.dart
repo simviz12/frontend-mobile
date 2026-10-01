@@ -23,3 +23,25 @@ class GetDevice {
     return _repository.getDevice(id);
   }
 }
+
+@injectable
+class RenameDevice {
+  final DeviceRepository _repository;
+
+  RenameDevice(this._repository);
+
+  Future<void> call(String id, String newName) {
+    return _repository.renameDevice(id, newName);
+  }
+}
+
+@injectable
+class UnlinkDevice {
+  final DeviceRepository _repository;
+
+  UnlinkDevice(this._repository);
+
+  Future<void> call(String id) {
+    return _repository.unlinkDevice(id);
+  }
+}
