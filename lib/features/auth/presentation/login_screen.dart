@@ -42,7 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Bienvenido, \${user.name}')),
           );
-          // TODO: Navigate to dashboard
+          context.go('/dashboard');
         },
         orElse: () {},
       );
