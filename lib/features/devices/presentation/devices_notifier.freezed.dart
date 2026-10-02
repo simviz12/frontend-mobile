@@ -85,10 +85,7 @@ switch (_that) {
 case _Loading():
 return loading(_that);case _Loaded():
 return loaded(_that);case _Error():
-return error(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return error(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -153,10 +150,7 @@ switch (_that) {
 case _Loading():
 return loading();case _Loaded():
 return loaded(_that.devices);case _Error():
-return error(_that.message);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return error(_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

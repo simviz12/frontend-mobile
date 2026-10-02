@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/command.dart';
@@ -31,7 +32,7 @@ class QuickActionsScreen extends ConsumerWidget {
     );
 
     if (confirm == true) {
-      ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(type);
+      unawaited(ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(type));
     }
   }
 
@@ -53,7 +54,7 @@ class QuickActionsScreen extends ConsumerWidget {
     );
 
     if (message != null && message.isNotEmpty) {
-      ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.message, payload: message);
+      unawaited(ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.message, payload: message));
     }
   }
 
@@ -63,7 +64,7 @@ class QuickActionsScreen extends ConsumerWidget {
 
     ref.listen<QuickActionsState>(quickActionsNotifierProvider(deviceId), (previous, next) {
       next.maybeWhen(
-        success: (cmd) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Comando entregado: \${cmd.type.name}'))),
+        success: (cmd) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Comando entregado: ${cmd.type.name}'))),
         error: (err) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $err'), backgroundColor: Colors.red)),
         orElse: () {},
       );

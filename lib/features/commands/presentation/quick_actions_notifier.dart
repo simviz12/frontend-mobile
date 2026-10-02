@@ -7,7 +7,7 @@ import '../domain/command.dart';
 part 'quick_actions_notifier.freezed.dart';
 
 @freezed
-class QuickActionsState with _$QuickActionsState {
+sealed class QuickActionsState with _$QuickActionsState {
   const factory QuickActionsState.idle() = _Idle;
   const factory QuickActionsState.sending(CommandType type) = _Sending;
   const factory QuickActionsState.success(DeviceCommand command) = _Success;
@@ -28,7 +28,9 @@ class QuickActionsNotifier extends StateNotifier<QuickActionsState> {
       
       // Return to idle after a short delay
       await Future.delayed(const Duration(seconds: 2));
-      if (mounted) state = const QuickActionsState.idle();
+      if (mounted) {
+        state = const QuickActionsState.idle();
+      }
     } catch (e) {
       state = QuickActionsState.error(e.toString());
     }

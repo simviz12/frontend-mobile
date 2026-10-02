@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -56,7 +57,7 @@ class DashboardScreen extends ConsumerWidget {
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(16),
                     leading: CircleAvatar(
-                      backgroundColor: isConnected ? Colors.green.withOpacity(0.2) : Colors.grey.withOpacity(0.2),
+                      backgroundColor: isConnected ? Colors.green.withValues(alpha: 0.2) : Colors.grey.withValues(alpha: 0.2),
                       child: Icon(
                         Icons.smartphone,
                         color: isConnected ? Colors.green : Colors.grey,
@@ -67,7 +68,7 @@ class DashboardScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 8),
-                        Text('Batería: \${device.batteryLevel}%'),
+                        Text('Batería: ${device.batteryLevel}%'),
                         Text(isConnected ? 'Conectado ahora' : 'Última conexión: hace poco'),
                       ],
                     ),
@@ -90,7 +91,7 @@ class DashboardScreen extends ConsumerWidget {
                             ),
                           );
                           if (newName != null && newName.isNotEmpty) {
-                            ref.read(devicesNotifierProvider.notifier).rename(device.id, newName);
+                            unawaited(ref.read(devicesNotifierProvider.notifier).rename(device.id, newName));
                           }
                         } else if (value == 'unlink') {
                           final confirm = await showDialog<bool>(
@@ -109,7 +110,7 @@ class DashboardScreen extends ConsumerWidget {
                             ),
                           );
                           if (confirm == true) {
-                            ref.read(devicesNotifierProvider.notifier).unlink(device.id);
+                            unawaited(ref.read(devicesNotifierProvider.notifier).unlink(device.id));
                           }
                         }
                       },

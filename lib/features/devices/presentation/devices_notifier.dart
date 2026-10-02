@@ -7,7 +7,7 @@ import '../domain/device.dart';
 part 'devices_notifier.freezed.dart';
 
 @freezed
-class DevicesState with _$DevicesState {
+sealed class DevicesState with _$DevicesState {
   const factory DevicesState.loading() = _Loading;
   const factory DevicesState.loaded(List<Device> devices) = _Loaded;
   const factory DevicesState.error(String message) = _Error;

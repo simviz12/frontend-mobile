@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       next.maybeWhen(
         success: (user) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Bienvenido, \${user.name}')),
+            SnackBar(content: Text('Bienvenido, ${user.name}')),
           );
           context.go('/dashboard');
         },

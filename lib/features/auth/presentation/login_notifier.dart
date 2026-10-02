@@ -7,7 +7,7 @@ import '../domain/user.dart';
 part 'login_notifier.freezed.dart';
 
 @freezed
-class LoginState with _$LoginState {
+sealed class LoginState with _$LoginState {
   const factory LoginState.initial() = _Initial;
   const factory LoginState.loading() = _Loading;
   const factory LoginState.success(User user) = _Success;

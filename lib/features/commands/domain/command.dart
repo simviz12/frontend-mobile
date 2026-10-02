@@ -12,7 +12,7 @@ enum CommandStatus {
 }
 
 @freezed
-class DeviceCommand with _$DeviceCommand {
+abstract class DeviceCommand with _$DeviceCommand {
   const factory DeviceCommand({
     required String id,
     required String deviceId,
