@@ -15,7 +15,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // For simplicity, assuming getIt is initialized or we just use MethodChannel directly here
   // Actually, we must configure dependencies to use getIt.
   configureDependencies();
-  
+
   final commandType = message.data['commandType'] as String?;
   if (commandType != null) {
     final executeCommand = getIt<ExecuteCommandLocally>();

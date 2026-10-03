@@ -18,7 +18,8 @@ class DevicesNotifier extends StateNotifier<DevicesState> {
   final RenameDevice _renameDevice;
   final UnlinkDevice _unlinkDevice;
 
-  DevicesNotifier(this._listDevices, this._renameDevice, this._unlinkDevice) : super(const DevicesState.loading()) {
+  DevicesNotifier(this._listDevices, this._renameDevice, this._unlinkDevice)
+    : super(const DevicesState.loading()) {
     loadDevices();
   }
 
@@ -51,10 +52,11 @@ class DevicesNotifier extends StateNotifier<DevicesState> {
   }
 }
 
-final devicesNotifierProvider = StateNotifierProvider<DevicesNotifier, DevicesState>((ref) {
-  return DevicesNotifier(
-    getIt<ListDevices>(),
-    getIt<RenameDevice>(),
-    getIt<UnlinkDevice>(),
-  );
-});
+final devicesNotifierProvider =
+    StateNotifierProvider<DevicesNotifier, DevicesState>((ref) {
+      return DevicesNotifier(
+        getIt<ListDevices>(),
+        getIt<RenameDevice>(),
+        getIt<UnlinkDevice>(),
+      );
+    });

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'live_location_notifier.dart';
 
 class LiveLocationScreen extends ConsumerStatefulWidget {
@@ -20,9 +19,7 @@ class _LiveLocationScreenState extends ConsumerState<LiveLocationScreen> {
     final state = ref.watch(liveLocationNotifierProvider(widget.deviceId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rastreo en Tiempo Real'),
-      ),
+      appBar: AppBar(title: const Text('Rastreo en Tiempo Real')),
       body: state.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (msg) => Center(child: Text('Error: $msg')),
@@ -45,7 +42,10 @@ class _LiveLocationScreenState extends ConsumerState<LiveLocationScreen> {
                   // Select only the currentPosition from the state to prevent unnecessary rebuilds
                   final location = ref.watch(
                     liveLocationNotifierProvider(widget.deviceId).select(
-                      (s) => s.maybeWhen(active: (loc) => loc, orElse: () => initialLocation),
+                      (s) => s.maybeWhen(
+                        active: (loc) => loc,
+                        orElse: () => initialLocation,
+                      ),
                     ),
                   );
 
@@ -62,7 +62,11 @@ class _LiveLocationScreenState extends ConsumerState<LiveLocationScreen> {
                         point: location,
                         width: 50,
                         height: 50,
-                        child: const Icon(Icons.location_history, color: Colors.blue, size: 50),
+                        child: const Icon(
+                          Icons.location_history,
+                          color: Colors.blue,
+                          size: 50,
+                        ),
                       ),
                     ],
                   );

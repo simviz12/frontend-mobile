@@ -7,10 +7,9 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('login, view dashboard, navigate to settings',
-        (tester) async {
+    testWidgets('login, view dashboard, navigate to settings', (tester) async {
       app.main();
-      
+
       // Wait for app to start and microtasks to finish
       await tester.pumpAndSettle();
 
@@ -18,12 +17,15 @@ void main() {
       expect(find.byType(TextFormField), findsNWidgets(2));
 
       // Enter login details
-      await tester.enterText(find.byType(TextFormField).first, 'admin@guardian.com');
+      await tester.enterText(
+        find.byType(TextFormField).first,
+        'admin@guardian.com',
+      );
       await tester.enterText(find.byType(TextFormField).last, 'password123');
 
       // Tap login button
       await tester.tap(find.text('Ingresar'));
-      
+
       // Settle the navigation animation and any data fetching
       await tester.pumpAndSettle();
 
@@ -32,7 +34,7 @@ void main() {
 
       // Verify we can find the mock device card
       expect(find.textContaining('Pixel 7 Pro'), findsOneWidget);
-      
+
       // Tap on the device card to open quick actions
       await tester.tap(find.textContaining('Pixel 7 Pro'));
       await tester.pumpAndSettle();

@@ -16,7 +16,8 @@ class LiveLocationNotifier extends StateNotifier<LiveLocationState> {
   Timer? _timer;
   final String deviceId;
 
-  LiveLocationNotifier(this.deviceId) : super(const LiveLocationState.loading()) {
+  LiveLocationNotifier(this.deviceId)
+    : super(const LiveLocationState.loading()) {
     _initTracking();
   }
 
@@ -31,7 +32,7 @@ class LiveLocationNotifier extends StateNotifier<LiveLocationState> {
         timer.cancel();
         return;
       }
-      
+
       // Slightly move the coordinates to simulate tracking
       current = LatLng(current.latitude + 0.0001, current.longitude + 0.0001);
       state = LiveLocationState.active(current);
@@ -45,6 +46,11 @@ class LiveLocationNotifier extends StateNotifier<LiveLocationState> {
   }
 }
 
-final liveLocationNotifierProvider = StateNotifierProvider.family<LiveLocationNotifier, LiveLocationState, String>((ref, deviceId) {
-  return LiveLocationNotifier(deviceId);
-});
+final liveLocationNotifierProvider =
+    StateNotifierProvider.family<
+      LiveLocationNotifier,
+      LiveLocationState,
+      String
+    >((ref, deviceId) {
+      return LiveLocationNotifier(deviceId);
+    });

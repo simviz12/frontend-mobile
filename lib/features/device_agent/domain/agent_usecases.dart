@@ -19,9 +19,9 @@ class CheckAdminActive {
 class ExecuteCommandLocally {
   final AgentRepository repository;
   ExecuteCommandLocally(this.repository);
-  
+
   Future<void> call(String commandType) async {
-    switch(commandType) {
+    switch (commandType) {
       case 'ring':
         await repository.ringAlarm();
         break;

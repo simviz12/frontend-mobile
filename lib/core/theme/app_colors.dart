@@ -16,9 +16,9 @@ class AppColors {
   static const Color surface = Colors.white;
   static const Color canvas = Color(0xFFF8F9FF);
   static const Color border = Color(0xFFE2E8F0);
-  
+
   static const Color textPrimary = Color(0xFF1E293B);
-  
+
   static const Color success = Color(0xFF22C55E);
   static const Color warning = Color(0xFFF59E0B);
 }

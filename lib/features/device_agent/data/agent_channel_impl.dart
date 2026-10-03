@@ -4,7 +4,9 @@ import '../domain/agent_repository.dart';
 
 @LazySingleton(as: AgentRepository)
 class AgentChannelImpl implements AgentRepository {
-  static const MethodChannel _channel = MethodChannel('com.simviz12.guardian_mobile/agent');
+  static const MethodChannel _channel = MethodChannel(
+    'com.simviz12.guardian_mobile/agent',
+  );
 
   @override
   Future<bool> requestAdmin() async {

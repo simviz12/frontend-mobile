@@ -17,28 +17,35 @@ void main() {
 
   const tEmail = 'test@example.com';
   const tPassword = 'password123';
-  final tUser = User(id: '1', email: tEmail, name: 'Test', token: 'token');
+  const tUser = User(id: '1', email: tEmail, name: 'Test', token: 'token');
 
   test('should return User when repository login is successful', () async {
     // arrange
-    when(() => mockRepository.login(email: tEmail, password: tPassword))
-        .thenAnswer((_) async => tUser);
+    when(
+      () => mockRepository.login(email: tEmail, password: tPassword),
+    ).thenAnswer((_) async => tUser);
 
     // act
     final result = await usecase(email: tEmail, password: tPassword);
 
     // assert
     expect(result, tUser);
-    verify(() => mockRepository.login(email: tEmail, password: tPassword)).called(1);
+    verify(
+      () => mockRepository.login(email: tEmail, password: tPassword),
+    ).called(1);
     verifyNoMoreInteractions(mockRepository);
   });
 
   test('should throw Exception when repository throws', () async {
     // arrange
-    when(() => mockRepository.login(email: tEmail, password: tPassword))
-        .thenThrow(Exception('Invalid credentials'));
+    when(
+      () => mockRepository.login(email: tEmail, password: tPassword),
+    ).thenThrow(Exception('Invalid credentials'));
 
     // act & assert
-    expect(() => usecase(email: tEmail, password: tPassword), throwsA(isA<Exception>()));
+    expect(
+      () => usecase(email: tEmail, password: tPassword),
+      throwsA(isA<Exception>()),
+    );
   });
 }

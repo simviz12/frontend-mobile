@@ -11,7 +11,7 @@ class CommandRepositoryImpl implements CommandRepository {
     String? payload,
   }) async {
     await Future.delayed(const Duration(seconds: 1)); // Mock network latency
-    
+
     return DeviceCommand(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       deviceId: deviceId,

@@ -27,14 +27,18 @@ class _LinkDeviceScreenState extends ConsumerState<LinkDeviceScreen> {
         final requestAdmin = getIt<RequestDeviceAdmin>();
         final adminGranted = await requestAdmin();
         if (!adminGranted) {
-          throw Exception('Se requieren permisos de administrador para proteger este celular.');
+          throw Exception(
+            'Se requieren permisos de administrador para proteger este celular.',
+          );
         }
       }
 
       final linker = getIt<LinkDevice>();
       await linker(isProtected: isProtected);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dispositivo vinculado exitosamente.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Dispositivo vinculado exitosamente.')),
+        );
         context.go('/dashboard'); // Go back to dashboard or home
       }
     } catch (e) {
@@ -73,7 +77,10 @@ class _LinkDeviceScreenState extends ConsumerState<LinkDeviceScreen> {
             ),
             const SizedBox(height: 48),
             if (_error != null) ...[
-              Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              Text(
+                _error!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
               const SizedBox(height: 16),
             ],
             if (_isLoading)
@@ -83,16 +90,20 @@ class _LinkDeviceScreenState extends ConsumerState<LinkDeviceScreen> {
                 onPressed: () => _link(true),
                 icon: const Icon(Icons.security),
                 label: const Text('Dispositivo Protegido'),
-                style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(16),
+                ),
               ),
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: () => _link(false),
                 icon: const Icon(Icons.admin_panel_settings),
                 label: const Text('Solo Controlador'),
-                style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(16)),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.all(16),
+                ),
               ),
-            ]
+            ],
           ],
         ),
       ),
