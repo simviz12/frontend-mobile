@@ -28,12 +28,13 @@ Map<String, dynamic> _$DeviceCommandToJson(_DeviceCommand instance) =>
 
 const _$CommandTypeEnumMap = {
   CommandType.ring: 'ring',
-  CommandType.locate: 'locate',
+  CommandType.location: 'location',
   CommandType.lock: 'lock',
   CommandType.message: 'message',
   CommandType.vibrate: 'vibrate',
   CommandType.wipe: 'wipe',
   CommandType.theftMode: 'theftMode',
+  CommandType.battery: 'battery',
 };
 
 const _$CommandStatusEnumMap = {

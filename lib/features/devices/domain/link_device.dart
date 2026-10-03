@@ -17,7 +17,9 @@ class LinkDevice {
 
     // 2. Get FCM token
     final token = await _messaging.getToken();
-    if (token == null) throw Exception("Could not get FCM token");
+    if (token == null) {
+      throw Exception('Could not get FCM token');
+    }
 
     // 3. TODO: Send token to Backend (POST /devices) with the role (isProtected)
     

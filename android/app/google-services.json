@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "506291126491",
+    "project_id": "guardian-mobile-bc47c",
+    "storage_bucket": "guardian-mobile-bc47c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506291126491:android:85faae40f8258b5f92ccfe",
+        "android_client_info": {
+          "package_name": "com.simviz12.guardian_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMewj6aw3Vd_OM6k4LWxLsNNd_Hs4hjRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

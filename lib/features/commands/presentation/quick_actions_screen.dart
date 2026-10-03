@@ -100,7 +100,7 @@ class QuickActionsScreen extends ConsumerWidget {
                 title: 'Localizar',
                 icon: Icons.location_on,
                 color: Colors.green,
-                onTap: isSending ? null : () => ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.locate),
+                onTap: isSending ? null : () => ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.location),
               ),
               _ActionCard(
                 title: 'Mensaje',

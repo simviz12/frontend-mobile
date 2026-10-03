@@ -4,7 +4,7 @@ part 'command.freezed.dart';
 part 'command.g.dart';
 
 enum CommandType {
-  ring, locate, lock, message, vibrate, wipe, theftMode
+  ring, location, lock, message, vibrate, wipe, theftMode, battery
 }
 
 enum CommandStatus {
