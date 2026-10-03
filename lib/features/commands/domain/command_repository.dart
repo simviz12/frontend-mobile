@@ -6,4 +6,6 @@ abstract class CommandRepository {
     required CommandType type,
     String? payload,
   });
+
+  Future<List<DeviceCommand>> getHistory(String deviceId);
 }

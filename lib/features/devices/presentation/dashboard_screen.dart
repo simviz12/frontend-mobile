@@ -112,9 +112,12 @@ class DashboardScreen extends ConsumerWidget {
                           if (confirm == true) {
                             unawaited(ref.read(devicesNotifierProvider.notifier).unlink(device.id));
                           }
+                        } else if (value == 'history') {
+                          await context.push('/history/${device.id}');
                         }
                       },
                       itemBuilder: (context) => [
+                        const PopupMenuItem(value: 'history', child: Text('Ver Historial')),
                         const PopupMenuItem(value: 'rename', child: Text('Renombrar')),
                         const PopupMenuItem(value: 'unlink', child: Text('Desvincular')),
                       ],
