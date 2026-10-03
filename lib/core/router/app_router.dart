@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/devices/presentation/dashboard_screen.dart';
+import '../../features/devices/presentation/link_device_screen.dart';
 import '../../features/commands/presentation/quick_actions_screen.dart';
 
 final appRouter = GoRouter(
@@ -13,6 +14,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/dashboard',
       builder: (context, state) => const DashboardScreen(),
+    ),
+    GoRoute(
+      path: '/link-device',
+      builder: (context, state) => const LinkDeviceScreen(),
     ),
     GoRoute(
       path: '/quick-actions/:id',
