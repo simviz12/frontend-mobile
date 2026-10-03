@@ -13,7 +13,6 @@ class AppTheme {
         error: AppColors.alert,
         onError: Colors.white,
         surface: AppColors.surface,
-        background: AppColors.canvas,
       ),
       scaffoldBackgroundColor: AppColors.canvas,
       textTheme: GoogleFonts.plusJakartaSansTextTheme().copyWith(
@@ -49,7 +48,7 @@ class AppTheme {
           elevation: 0,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.surface,
         elevation: 1,
         shape: RoundedRectangleBorder(

@@ -1,20 +1,66 @@
 # Guardian Mobile
 
 Guardian Mobile is a dual-mode Flutter application designed for device protection and remote management.
-Currently developed for Android as the primary target.
+Developed primarily for Android using native Kotlin integrations (MethodChannels & DevicePolicyManager), with an architecture built to scale.
 
-## Features Completed
-- **Project Setup (Day 1):** Clean Architecture structure, GitHub Actions, basic dependencies.
-- **Core Theme (Day 2):** Implementation of `DESIGN.md` tokens (Plus Jakarta Sans, Primary `#006948`, Alert `#b61722`), Dependency Injection with `get_it` and routing with `go_router`.
+## Features
+
+- **Authentication:** Secure login flow supporting role-based operations.
+- **Dual Mode Design:**
+  - **Theft Mode / Protected Device:** Operates stealthily, receiving remote commands via Firebase Cloud Messaging (FCM) to trigger actions like Device Lock, Wipe, Ring, and Live Location Tracking.
+  - **Controller / Dashboard Mode:** Used by owners to monitor and dispatch commands to their linked protected devices.
+- **Commands & Quick Actions:** Remotely lock, wipe, ring, vibrate, or fetch the location of linked devices.
+- **Commands History:** A visual history panel displaying all past commands and a static snapshot map of locations using `flutter_map` and OSM.
+- **Live Location Tracking:** Optimized real-time location screen using `flutter_map` and Riverpod `select` directives to performantly render device movements without rebuilding the entire UI tree.
+- **Native Android Agent:** Integrated `DevicePolicyManager` for advanced administrative privileges (Lock, Wipe) and `AudioManager` for remote ringing, bypassing silent modes.
+
+## Architecture & Tech Stack
+
+This project strictly adheres to **Clean Architecture** (Presentation, Domain, Data) and Feature-Driven Development.
+
+- **State Management:** Riverpod (`flutter_riverpod`) & StateNotifier (with `freezed` for immutable states).
+- **Dependency Injection:** `get_it` & `injectable`.
+- **Routing:** `go_router` for deep linking and declarative navigation.
+- **Networking:** Prepared for `dio` and OpenAPI. Currently utilizing mock implementations.
+- **Code Generation:** `build_runner`, `freezed`, and `json_serializable`.
+- **Maps:** `flutter_map` + `latlong2`.
+- **Native (Android):** Kotlin MethodChannels.
 
 ## How to Run
-1. Ensure Flutter (latest stable) is installed.
-2. Run `flutter pub get`.
-3. Run `dart run build_runner build -d` to generate files.
-4. Run `flutter run`.
+
+1. **Pre-requisites:** Ensure Flutter SDK is installed and configured for Android.
+2. **Firebase Configuration:** Place your valid `google-services.json` inside the `android/app/` directory. Ensure FCM APIs are enabled in your Google Cloud Console.
+3. **Dependencies:**
+   ```bash
+   flutter pub get
+   ```
+4. **Code Generation:** (Required for Freezed models and Injectable DI):
+   ```bash
+   dart run build_runner build -d
+   ```
+5. **Run Application:**
+   ```bash
+   flutter run
+   ```
 
 ## Testing
-Run tests using:
-\`\`\`bash
-flutter test
-\`\`\`
+
+The project has comprehensive testing covering the critical paths (Domain, Presentation Notifiers, UI Widgets, and End-to-End).
+
+- **Unit and Widget Tests:**
+  ```bash
+  flutter test
+  ```
+- **Integration Tests:** E2E scenarios covering Login -> Dashboard -> Remote Commands -> Settings -> Logout.
+  ```bash
+  flutter test integration_test
+  ```
+
+## CI/CD
+
+Automated GitHub Actions workflows are in place to guarantee code health:
+- `flutter analyze`
+- `dart format --output=none --set-exit-if-changed .`
+- `flutter test`
+
+All Pull Requests enforce these checks before merging to `develop`.

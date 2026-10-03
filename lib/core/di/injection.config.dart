@@ -16,8 +16,17 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../features/auth/data/auth_repository_impl.dart' as _i781;
 import '../../features/auth/domain/auth_repository.dart' as _i996;
 import '../../features/auth/domain/login_user.dart' as _i645;
-import '../network/auth_interceptor.dart' as _i908;
-import '../network/dio_client.dart' as _i667;
+import '../../features/commands/data/command_repository_impl.dart' as _i931;
+import '../../features/commands/domain/command_repository.dart' as _i106;
+import '../../features/commands/domain/get_commands_history.dart' as _i676;
+import '../../features/commands/domain/send_command.dart' as _i1007;
+import '../../features/device_agent/data/agent_channel_impl.dart' as _i676;
+import '../../features/device_agent/domain/agent_repository.dart' as _i984;
+import '../../features/device_agent/domain/agent_usecases.dart' as _i941;
+import '../../features/devices/data/device_repository_impl.dart' as _i626;
+import '../../features/devices/domain/device_repository.dart' as _i960;
+import '../../features/devices/domain/device_usecases.dart' as _i589;
+import '../../features/devices/domain/link_device.dart' as _i896;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,13 +35,44 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    gh.factory<_i908.AuthInterceptor>(() => _i908.AuthInterceptor());
+    gh.factory<_i896.LinkDevice>(() => _i896.LinkDevice());
+    gh.lazySingleton<_i960.DeviceRepository>(
+      () => _i626.DeviceRepositoryImpl(),
+    );
+    gh.lazySingleton<_i106.CommandRepository>(
+      () => _i931.CommandRepositoryImpl(),
+    );
     gh.lazySingleton<_i996.AuthRepository>(() => _i781.AuthRepositoryImpl());
-    gh.lazySingleton<_i667.DioClient>(
-      () => _i667.DioClient(gh<_i908.AuthInterceptor>()),
+    gh.factory<_i676.GetCommandsHistory>(
+      () => _i676.GetCommandsHistory(gh<_i106.CommandRepository>()),
+    );
+    gh.factory<_i1007.SendCommand>(
+      () => _i1007.SendCommand(gh<_i106.CommandRepository>()),
+    );
+    gh.lazySingleton<_i984.AgentRepository>(() => _i676.AgentChannelImpl());
+    gh.factory<_i941.RequestDeviceAdmin>(
+      () => _i941.RequestDeviceAdmin(gh<_i984.AgentRepository>()),
+    );
+    gh.factory<_i941.CheckAdminActive>(
+      () => _i941.CheckAdminActive(gh<_i984.AgentRepository>()),
+    );
+    gh.factory<_i941.ExecuteCommandLocally>(
+      () => _i941.ExecuteCommandLocally(gh<_i984.AgentRepository>()),
     );
     gh.factory<_i645.LoginUser>(
       () => _i645.LoginUser(gh<_i996.AuthRepository>()),
+    );
+    gh.factory<_i589.ListDevices>(
+      () => _i589.ListDevices(gh<_i960.DeviceRepository>()),
+    );
+    gh.factory<_i589.GetDevice>(
+      () => _i589.GetDevice(gh<_i960.DeviceRepository>()),
+    );
+    gh.factory<_i589.RenameDevice>(
+      () => _i589.RenameDevice(gh<_i960.DeviceRepository>()),
+    );
+    gh.factory<_i589.UnlinkDevice>(
+      () => _i589.UnlinkDevice(gh<_i960.DeviceRepository>()),
     );
     return this;
   }
