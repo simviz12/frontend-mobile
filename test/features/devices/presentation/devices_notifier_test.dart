@@ -76,4 +76,38 @@ void main() {
       const DevicesState.error('Exception: Failed to fetch'),
     );
   });
+
+  test('rename should invoke RenameDevice and reload devices', () async {
+    when(() => mockListDevices()).thenAnswer((_) async => tDevices);
+    when(() => mockRenameDevice('1', 'New Name')).thenAnswer((_) async {});
+
+    notifier = DevicesNotifier(
+      mockListDevices,
+      mockRenameDevice,
+      mockUnlinkDevice,
+    );
+    await Future.microtask(() {});
+
+    await notifier.rename('1', 'New Name');
+
+    verify(() => mockRenameDevice('1', 'New Name')).called(1);
+    verify(() => mockListDevices()).called(2); // Initial + reload
+  });
+
+  test('unlink should invoke UnlinkDevice and reload devices', () async {
+    when(() => mockListDevices()).thenAnswer((_) async => tDevices);
+    when(() => mockUnlinkDevice('1')).thenAnswer((_) async {});
+
+    notifier = DevicesNotifier(
+      mockListDevices,
+      mockRenameDevice,
+      mockUnlinkDevice,
+    );
+    await Future.microtask(() {});
+
+    await notifier.unlink('1');
+
+    verify(() => mockUnlinkDevice('1')).called(1);
+    verify(() => mockListDevices()).called(2); // Initial + reload
+  });
 }
