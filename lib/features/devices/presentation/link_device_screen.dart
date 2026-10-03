@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/di/injection.dart';
 import '../domain/link_device.dart';
+import '../../device_agent/domain/agent_usecases.dart';
 
 class LinkDeviceScreen extends ConsumerStatefulWidget {
   const LinkDeviceScreen({super.key});
@@ -22,6 +23,14 @@ class _LinkDeviceScreenState extends ConsumerState<LinkDeviceScreen> {
     });
 
     try {
+      if (isProtected) {
+        final requestAdmin = getIt<RequestDeviceAdmin>();
+        final adminGranted = await requestAdmin();
+        if (!adminGranted) {
+          throw Exception('Se requieren permisos de administrador para proteger este celular.');
+        }
+      }
+
       final linker = getIt<LinkDevice>();
       await linker(isProtected: isProtected);
       if (mounted) {
