@@ -13,6 +13,10 @@ class SendCommand {
     required CommandType type,
     String? payload,
   }) {
-    return _repository.sendCommand(deviceId: deviceId, type: type, payload: payload);
+    return _repository.sendCommand(
+      deviceId: deviceId,
+      type: type,
+      payload: payload,
+    );
   }
 }

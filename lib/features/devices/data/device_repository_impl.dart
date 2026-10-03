@@ -32,7 +32,10 @@ class DeviceRepositoryImpl implements DeviceRepository {
   @override
   Future<Device> getDevice(String id) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final device = _mockDevices.firstWhere((d) => d.id == id, orElse: () => throw Exception('Dispositivo no encontrado'));
+    final device = _mockDevices.firstWhere(
+      (d) => d.id == id,
+      orElse: () => throw Exception('Dispositivo no encontrado'),
+    );
     return device;
   }
 

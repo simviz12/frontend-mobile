@@ -26,12 +26,23 @@ void main() {
   );
 
   test('should return DeviceCommand when successful', () async {
-    when(() => mockRepository.sendCommand(deviceId: tDeviceId, type: tType, payload: null))
-        .thenAnswer((_) async => tCommand);
+    when(
+      () => mockRepository.sendCommand(
+        deviceId: tDeviceId,
+        type: tType,
+        payload: null,
+      ),
+    ).thenAnswer((_) async => tCommand);
 
     final result = await usecase(deviceId: tDeviceId, type: tType);
 
     expect(result, tCommand);
-    verify(() => mockRepository.sendCommand(deviceId: tDeviceId, type: tType, payload: null)).called(1);
+    verify(
+      () => mockRepository.sendCommand(
+        deviceId: tDeviceId,
+        type: tType,
+        payload: null,
+      ),
+    ).called(1);
   });
 }

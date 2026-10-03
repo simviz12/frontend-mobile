@@ -35,7 +35,8 @@ class DashboardScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               Text('Error: $message'),
               TextButton(
-                onPressed: () => ref.read(devicesNotifierProvider.notifier).loadDevices(),
+                onPressed: () =>
+                    ref.read(devicesNotifierProvider.notifier).loadDevices(),
                 child: const Text('Reintentar'),
               ),
             ],
@@ -46,7 +47,8 @@ class DashboardScreen extends ConsumerWidget {
             return const Center(child: Text('No hay dispositivos vinculados.'));
           }
           return RefreshIndicator(
-            onRefresh: () => ref.read(devicesNotifierProvider.notifier).loadDevices(),
+            onRefresh: () =>
+                ref.read(devicesNotifierProvider.notifier).loadDevices(),
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: devices.length,
@@ -59,73 +61,122 @@ class DashboardScreen extends ConsumerWidget {
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(16),
                     leading: CircleAvatar(
-                      backgroundColor: isConnected ? Colors.green.withValues(alpha: 0.2) : Colors.grey.withValues(alpha: 0.2),
+                      backgroundColor: isConnected
+                          ? Colors.green.withValues(alpha: 0.2)
+                          : Colors.grey.withValues(alpha: 0.2),
                       child: Icon(
                         Icons.smartphone,
                         color: isConnected ? Colors.green : Colors.grey,
                       ),
                     ),
-                    title: Text(device.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(
+                      device.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 8),
                         Text('Batería: ${device.batteryLevel}%'),
-                        Text(isConnected ? 'Conectado ahora' : 'Última conexión: hace poco'),
+                        Text(
+                          isConnected
+                              ? 'Conectado ahora'
+                              : 'Última conexión: hace poco',
+                        ),
                       ],
                     ),
                     trailing: PopupMenuButton<String>(
                       onSelected: (value) async {
                         if (value == 'rename') {
-                          final controller = TextEditingController(text: device.name);
+                          final controller = TextEditingController(
+                            text: device.name,
+                          );
                           final newName = await showDialog<String>(
                             context: context,
                             builder: (ctx) => AlertDialog(
                               title: const Text('Renombrar dispositivo'),
                               content: TextField(
                                 controller: controller,
-                                decoration: const InputDecoration(hintText: 'Nuevo nombre'),
+                                decoration: const InputDecoration(
+                                  hintText: 'Nuevo nombre',
+                                ),
                               ),
                               actions: [
-                                TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
-                                ElevatedButton(onPressed: () => Navigator.pop(ctx, controller.text), child: const Text('Guardar')),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(ctx),
+                                  child: const Text('Cancelar'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.pop(ctx, controller.text),
+                                  child: const Text('Guardar'),
+                                ),
                               ],
                             ),
                           );
                           if (newName != null && newName.isNotEmpty) {
-                            unawaited(ref.read(devicesNotifierProvider.notifier).rename(device.id, newName));
+                            unawaited(
+                              ref
+                                  .read(devicesNotifierProvider.notifier)
+                                  .rename(device.id, newName),
+                            );
                           }
                         } else if (value == 'unlink') {
                           final confirm = await showDialog<bool>(
                             context: context,
                             builder: (ctx) => AlertDialog(
                               title: const Text('Desvincular dispositivo'),
-                              content: const Text('¿Estás seguro de que deseas desvincular este dispositivo? Perderás el acceso remoto.'),
+                              content: const Text(
+                                '¿Estás seguro de que deseas desvincular este dispositivo? Perderás el acceso remoto.',
+                              ),
                               actions: [
-                                TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+                                TextButton(
+                                  onPressed: () => Navigator.pop(ctx, false),
+                                  child: const Text('Cancelar'),
+                                ),
                                 ElevatedButton(
                                   onPressed: () => Navigator.pop(ctx, true),
-                                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.error,
+                                  ),
                                   child: const Text('Desvincular'),
                                 ),
                               ],
                             ),
                           );
                           if (confirm == true) {
-                            unawaited(ref.read(devicesNotifierProvider.notifier).unlink(device.id));
+                            unawaited(
+                              ref
+                                  .read(devicesNotifierProvider.notifier)
+                                  .unlink(device.id),
+                            );
                           }
                         } else if (value == 'history') {
                           await context.push('/history/${device.id}');
                         }
                       },
                       itemBuilder: (context) => [
-                        const PopupMenuItem(value: 'history', child: Text('Ver Historial')),
-                        const PopupMenuItem(value: 'rename', child: Text('Renombrar')),
-                        const PopupMenuItem(value: 'unlink', child: Text('Desvincular')),
+                        const PopupMenuItem(
+                          value: 'history',
+                          child: Text('Ver Historial'),
+                        ),
+                        const PopupMenuItem(
+                          value: 'rename',
+                          child: Text('Renombrar'),
+                        ),
+                        const PopupMenuItem(
+                          value: 'unlink',
+                          child: Text('Desvincular'),
+                        ),
                       ],
                     ),
                     onTap: () {
-                      context.push('/quick-actions/\${device.id}', extra: device.name);
+                      context.push(
+                        '/quick-actions/\${device.id}',
+                        extra: device.name,
+                      );
                     },
                   ),
                 );

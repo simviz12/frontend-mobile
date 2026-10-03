@@ -11,10 +11,7 @@ import '../../features/location/presentation/live_location_screen.dart';
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const LoginScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const LoginScreen()),
     GoRoute(
       path: '/dashboard',
       builder: (context, state) => const DashboardScreen(),
@@ -52,9 +49,8 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/live-location/:id',
-      builder: (context, state) => LiveLocationScreen(
-        deviceId: state.pathParameters['id']!,
-      ),
+      builder: (context, state) =>
+          LiveLocationScreen(deviceId: state.pathParameters['id']!),
     ),
   ],
 );

@@ -15,17 +15,31 @@ class QuickActionsScreen extends ConsumerWidget {
     required this.deviceName,
   });
 
-  void _confirmAndExecute(BuildContext context, WidgetRef ref, CommandType type, {String? title, String? message, bool isDestructive = false}) async {
+  void _confirmAndExecute(
+    BuildContext context,
+    WidgetRef ref,
+    CommandType type, {
+    String? title,
+    String? message,
+    bool isDestructive = false,
+  }) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(title ?? 'Confirmar acción'),
         content: Text(message ?? '¿Deseas enviar este comando al dispositivo?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancelar'),
+          ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
-            style: isDestructive ? ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error) : null,
+            style: isDestructive
+                ? ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  )
+                : null,
             child: const Text('Ejecutar'),
           ),
         ],
@@ -33,7 +47,11 @@ class QuickActionsScreen extends ConsumerWidget {
     );
 
     if (confirm == true) {
-      unawaited(ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(type));
+      unawaited(
+        ref
+            .read(quickActionsNotifierProvider(deviceId).notifier)
+            .executeCommand(type),
+      );
     }
   }
 
@@ -45,17 +63,29 @@ class QuickActionsScreen extends ConsumerWidget {
         title: const Text('Mostrar Mensaje'),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(hintText: 'Escribe un mensaje para la pantalla'),
+          decoration: const InputDecoration(
+            hintText: 'Escribe un mensaje para la pantalla',
+          ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
-          ElevatedButton(onPressed: () => Navigator.pop(ctx, controller.text), child: const Text('Enviar')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, controller.text),
+            child: const Text('Enviar'),
+          ),
         ],
       ),
     );
 
     if (message != null && message.isNotEmpty) {
-      unawaited(ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.message, payload: message));
+      unawaited(
+        ref
+            .read(quickActionsNotifierProvider(deviceId).notifier)
+            .executeCommand(CommandType.message, payload: message),
+      );
     }
   }
 
@@ -63,20 +93,28 @@ class QuickActionsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(quickActionsNotifierProvider(deviceId));
 
-    ref.listen<QuickActionsState>(quickActionsNotifierProvider(deviceId), (previous, next) {
+    ref.listen<QuickActionsState>(quickActionsNotifierProvider(deviceId), (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
-        success: (cmd) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Comando entregado: ${cmd.type.name}'))),
-        error: (err) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $err'), backgroundColor: Colors.red)),
+        success: (cmd) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Comando entregado: ${cmd.type.name}')),
+        ),
+        error: (err) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $err'), backgroundColor: Colors.red),
+        ),
         orElse: () {},
       );
     });
 
-    final isSending = state.maybeWhen(sending: (_) => true, orElse: () => false);
+    final isSending = state.maybeWhen(
+      sending: (_) => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(deviceName),
-      ),
+      appBar: AppBar(title: Text(deviceName)),
       body: Stack(
         children: [
           GridView.count(
@@ -89,42 +127,60 @@ class QuickActionsScreen extends ConsumerWidget {
                 title: 'Hacer Sonar',
                 icon: Icons.volume_up,
                 color: Colors.blue,
-                onTap: isSending ? null : () => ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.ring),
+                onTap: isSending
+                    ? null
+                    : () => ref
+                          .read(quickActionsNotifierProvider(deviceId).notifier)
+                          .executeCommand(CommandType.ring),
               ),
               _ActionCard(
                 title: 'Vibrar',
                 icon: Icons.vibration,
                 color: Colors.orange,
-                onTap: isSending ? null : () => ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.vibrate),
+                onTap: isSending
+                    ? null
+                    : () => ref
+                          .read(quickActionsNotifierProvider(deviceId).notifier)
+                          .executeCommand(CommandType.vibrate),
               ),
               _ActionCard(
                 title: 'Localizar',
                 icon: Icons.location_on,
                 color: Colors.green,
-                onTap: isSending ? null : () => context.push('/live-location/$deviceId'),
+                onTap: isSending
+                    ? null
+                    : () => context.push('/live-location/$deviceId'),
               ),
               _ActionCard(
                 title: 'Mensaje',
                 icon: Icons.message,
                 color: Colors.purple,
-                onTap: isSending ? null : () => _showMessageDialog(context, ref),
+                onTap: isSending
+                    ? null
+                    : () => _showMessageDialog(context, ref),
               ),
               _ActionCard(
                 title: 'Bloquear',
                 icon: Icons.lock,
                 color: Colors.redAccent,
-                onTap: isSending ? null : () => _confirmAndExecute(
-                  context, ref, CommandType.lock,
-                  title: 'Bloquear Dispositivo',
-                  message: 'El dispositivo se bloqueará con su PIN/Contraseña actual.',
-                ),
+                onTap: isSending
+                    ? null
+                    : () => _confirmAndExecute(
+                        context,
+                        ref,
+                        CommandType.lock,
+                        title: 'Bloquear Dispositivo',
+                        message:
+                            'El dispositivo se bloqueará con su PIN/Contraseña actual.',
+                      ),
               ),
               _ActionCard(
                 title: 'Modo Robo',
                 icon: Icons.warning,
                 color: Theme.of(context).colorScheme.error,
                 isDestructive: true,
-                onTap: () => context.push('/theft-mode/$deviceId', extra: deviceName),
+                onTap: () =>
+                    context.push('/theft-mode/$deviceId', extra: deviceName),
               ),
             ],
           ),
@@ -160,7 +216,13 @@ class _ActionCard extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isDestructive;
 
-  const _ActionCard({required this.title, required this.icon, required this.color, this.onTap, this.isDestructive = false});
+  const _ActionCard({
+    required this.title,
+    required this.icon,
+    required this.color,
+    this.onTap,
+    this.isDestructive = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +230,9 @@ class _ActionCard extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: isDestructive ? const BorderSide(color: Colors.red, width: 2) : BorderSide.none,
+        side: isDestructive
+            ? const BorderSide(color: Colors.red, width: 2)
+            : BorderSide.none,
       ),
       child: InkWell(
         onTap: onTap,

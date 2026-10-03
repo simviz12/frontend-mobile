@@ -4,12 +4,17 @@ part 'command.freezed.dart';
 part 'command.g.dart';
 
 enum CommandType {
-  ring, location, lock, message, vibrate, wipe, theftMode, battery
+  ring,
+  location,
+  lock,
+  message,
+  vibrate,
+  wipe,
+  theftMode,
+  battery,
 }
 
-enum CommandStatus {
-  pending, delivered, executed, failed
-}
+enum CommandStatus { pending, delivered, executed, failed }
 
 @freezed
 abstract class DeviceCommand with _$DeviceCommand {
@@ -22,5 +27,6 @@ abstract class DeviceCommand with _$DeviceCommand {
     required DateTime createdAt,
   }) = _DeviceCommand;
 
-  factory DeviceCommand.fromJson(Map<String, dynamic> json) => _$DeviceCommandFromJson(json);
+  factory DeviceCommand.fromJson(Map<String, dynamic> json) =>
+      _$DeviceCommandFromJson(json);
 }

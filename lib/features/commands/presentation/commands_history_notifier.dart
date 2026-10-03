@@ -9,7 +9,8 @@ part 'commands_history_notifier.freezed.dart';
 @freezed
 sealed class CommandsHistoryState with _$CommandsHistoryState {
   const factory CommandsHistoryState.loading() = _Loading;
-  const factory CommandsHistoryState.loaded(List<DeviceCommand> commands) = _Loaded;
+  const factory CommandsHistoryState.loaded(List<DeviceCommand> commands) =
+      _Loaded;
   const factory CommandsHistoryState.error(String message) = _Error;
 }
 
@@ -17,7 +18,8 @@ class CommandsHistoryNotifier extends StateNotifier<CommandsHistoryState> {
   final GetCommandsHistory _getCommandsHistory;
   final String deviceId;
 
-  CommandsHistoryNotifier(this._getCommandsHistory, {required this.deviceId}) : super(const CommandsHistoryState.loading()) {
+  CommandsHistoryNotifier(this._getCommandsHistory, {required this.deviceId})
+    : super(const CommandsHistoryState.loading()) {
     load();
   }
 
@@ -36,6 +38,14 @@ class CommandsHistoryNotifier extends StateNotifier<CommandsHistoryState> {
   }
 }
 
-final commandsHistoryNotifierProvider = StateNotifierProvider.family<CommandsHistoryNotifier, CommandsHistoryState, String>((ref, deviceId) {
-  return CommandsHistoryNotifier(getIt<GetCommandsHistory>(), deviceId: deviceId);
-});
+final commandsHistoryNotifierProvider =
+    StateNotifierProvider.family<
+      CommandsHistoryNotifier,
+      CommandsHistoryState,
+      String
+    >((ref, deviceId) {
+      return CommandsHistoryNotifier(
+        getIt<GetCommandsHistory>(),
+        deviceId: deviceId,
+      );
+    });

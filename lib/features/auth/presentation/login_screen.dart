@@ -25,10 +25,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
-      ref.read(loginNotifierProvider.notifier).login(
-        _emailController.text,
-        _passwordController.text,
-      );
+      ref
+          .read(loginNotifierProvider.notifier)
+          .login(_emailController.text, _passwordController.text);
     }
   }
 
@@ -39,9 +38,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       next.maybeWhen(
         success: (user) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Bienvenido, ${user.name}')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Bienvenido, ${user.name}')));
           context.go('/link-device');
         },
         orElse: () {},
@@ -59,7 +58,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(Icons.security, size: 80, color: Color(0xFF006948)),
+                  const Icon(
+                    Icons.security,
+                    size: 80,
+                    color: Color(0xFF006948),
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     'Guardian Mobile',
@@ -75,7 +78,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 48),
-                  if (state.maybeWhen(error: (msg) => true, orElse: () => false))
+                  if (state.maybeWhen(
+                    error: (msg) => true,
+                    orElse: () => false,
+                  ))
                     Container(
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.only(bottom: 24),
@@ -85,7 +91,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       child: Text(
                         state.maybeWhen(error: (msg) => msg, orElse: () => ''),
-                        style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                        ),
                       ),
                     ),
                   TextFormField(
@@ -116,7 +124,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
                         onPressed: () {
                           setState(() {
                             _obscurePassword = !_obscurePassword;
@@ -141,7 +153,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       loading: () => const SizedBox(
                         height: 24,
                         width: 24,
-                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
                       ),
                       orElse: () => const Text('Ingresar'),
                     ),

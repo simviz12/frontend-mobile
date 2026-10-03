@@ -18,14 +18,19 @@ class QuickActionsNotifier extends StateNotifier<QuickActionsState> {
   final SendCommand _sendCommand;
   final String deviceId;
 
-  QuickActionsNotifier(this._sendCommand, {required this.deviceId}) : super(const QuickActionsState.idle());
+  QuickActionsNotifier(this._sendCommand, {required this.deviceId})
+    : super(const QuickActionsState.idle());
 
   Future<void> executeCommand(CommandType type, {String? payload}) async {
     state = QuickActionsState.sending(type);
     try {
-      final command = await _sendCommand(deviceId: deviceId, type: type, payload: payload);
+      final command = await _sendCommand(
+        deviceId: deviceId,
+        type: type,
+        payload: payload,
+      );
       state = QuickActionsState.success(command);
-      
+
       // Return to idle after a short delay
       await Future.delayed(const Duration(seconds: 2));
       if (mounted) {
@@ -37,6 +42,11 @@ class QuickActionsNotifier extends StateNotifier<QuickActionsState> {
   }
 }
 
-final quickActionsNotifierProvider = StateNotifierProvider.family<QuickActionsNotifier, QuickActionsState, String>((ref, deviceId) {
-  return QuickActionsNotifier(getIt<SendCommand>(), deviceId: deviceId);
-});
+final quickActionsNotifierProvider =
+    StateNotifierProvider.family<
+      QuickActionsNotifier,
+      QuickActionsState,
+      String
+    >((ref, deviceId) {
+      return QuickActionsNotifier(getIt<SendCommand>(), deviceId: deviceId);
+    });

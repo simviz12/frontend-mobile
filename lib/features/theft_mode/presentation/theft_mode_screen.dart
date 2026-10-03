@@ -16,17 +16,29 @@ class TheftModeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(quickActionsNotifierProvider(deviceId));
-    final isSending = state.maybeWhen(sending: (_) => true, orElse: () => false);
+    final isSending = state.maybeWhen(
+      sending: (_) => true,
+      orElse: () => false,
+    );
 
     ref.listen(quickActionsNotifierProvider(deviceId), (prev, next) {
       next.whenOrNull(
-        error: (msg) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $msg'), backgroundColor: Theme.of(context).colorScheme.error)),
+        error: (msg) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $msg'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        ),
         success: (cmd) {
           if (cmd.type == CommandType.theftMode) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Modo Robo activado correctamente.')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Modo Robo activado correctamente.'),
+              ),
+            );
             Navigator.pop(context);
           }
-        }
+        },
       );
     });
 
@@ -41,7 +53,11 @@ class TheftModeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Icon(Icons.warning_amber_rounded, size: 80, color: Theme.of(context).colorScheme.error),
+            Icon(
+              Icons.warning_amber_rounded,
+              size: 80,
+              color: Theme.of(context).colorScheme.error,
+            ),
             const SizedBox(height: 24),
             Text(
               '¡Atención!',
@@ -63,7 +79,9 @@ class TheftModeScreen extends ConsumerWidget {
             else
               ElevatedButton.icon(
                 onPressed: () {
-                  ref.read(quickActionsNotifierProvider(deviceId).notifier).executeCommand(CommandType.theftMode);
+                  ref
+                      .read(quickActionsNotifierProvider(deviceId).notifier)
+                      .executeCommand(CommandType.theftMode);
                 },
                 icon: const Icon(Icons.shield),
                 label: const Text('ACTIVAR MODO ROBO'),
@@ -71,7 +89,10 @@ class TheftModeScreen extends ConsumerWidget {
                   backgroundColor: Theme.of(context).colorScheme.error,
                   foregroundColor: Theme.of(context).colorScheme.onError,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             const SizedBox(height: 16),

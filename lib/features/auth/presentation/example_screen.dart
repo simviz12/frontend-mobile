@@ -21,10 +21,15 @@ class ExampleScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Card Title',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                     SizedBox(height: 8),
-                    Text('This is a card to validate the theme configuration with 16px radius.'),
+                    Text(
+                      'This is a card to validate the theme configuration with 16px radius.',
+                    ),
                   ],
                 ),
               ),
@@ -37,9 +42,7 @@ class ExampleScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.alert,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.alert),
               child: const Text('Danger Button'),
             ),
           ],

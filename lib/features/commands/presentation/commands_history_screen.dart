@@ -23,9 +23,14 @@ class CommandsHistoryScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Error: $msg', style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              Text(
+                'Error: $msg',
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
               TextButton(
-                onPressed: () => ref.read(commandsHistoryNotifierProvider(deviceId).notifier).load(),
+                onPressed: () => ref
+                    .read(commandsHistoryNotifierProvider(deviceId).notifier)
+                    .load(),
                 child: const Text('Reintentar'),
               ),
             ],
@@ -36,7 +41,9 @@ class CommandsHistoryScreen extends ConsumerWidget {
             return const Center(child: Text('No hay comandos recientes.'));
           }
           return RefreshIndicator(
-            onRefresh: () => ref.read(commandsHistoryNotifierProvider(deviceId).notifier).load(),
+            onRefresh: () => ref
+                .read(commandsHistoryNotifierProvider(deviceId).notifier)
+                .load(),
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: commands.length,
@@ -59,13 +66,19 @@ class _CommandCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
-    final isLocation = command.type == CommandType.location && command.payload != null && command.payload!.contains(',');
-    
+    final isLocation =
+        command.type == CommandType.location &&
+        command.payload != null &&
+        command.payload!.contains(',');
+
     LatLng? location;
     if (isLocation) {
       final parts = command.payload!.split(',');
       if (parts.length == 2) {
-        location = LatLng(double.tryParse(parts[0]) ?? 0, double.tryParse(parts[1]) ?? 0);
+        location = LatLng(
+          double.tryParse(parts[0]) ?? 0,
+          double.tryParse(parts[1]) ?? 0,
+        );
       }
     }
 
@@ -78,7 +91,10 @@ class _CommandCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(_getIconForCommand(command.type), color: Theme.of(context).colorScheme.primary),
+                Icon(
+                  _getIconForCommand(command.type),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -97,9 +113,18 @@ class _CommandCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(
                   children: [
-                    const SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2)),
+                    const SizedBox(
+                      width: 12,
+                      height: 12,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
                     const SizedBox(width: 8),
-                    Text('Pendiente', style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
+                    Text(
+                      'Pendiente',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -109,18 +134,23 @@ class _CommandCard extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
                 ),
                 clipBehavior: Clip.antiAlias,
                 child: FlutterMap(
                   options: MapOptions(
                     initialCenter: location,
                     initialZoom: 15.0,
-                    interactionOptions: const InteractionOptions(flags: InteractiveFlag.none),
+                    interactionOptions: const InteractionOptions(
+                      flags: InteractiveFlag.none,
+                    ),
                   ),
                   children: [
                     TileLayer(
-                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.simviz12.guardian_mobile',
                     ),
                     MarkerLayer(
@@ -129,7 +159,11 @@ class _CommandCard extends StatelessWidget {
                           point: location,
                           width: 40,
                           height: 40,
-                          child: const Icon(Icons.location_on, color: Colors.red, size: 40),
+                          child: const Icon(
+                            Icons.location_on,
+                            color: Colors.red,
+                            size: 40,
+                          ),
                         ),
                       ],
                     ),
@@ -144,27 +178,43 @@ class _CommandCard extends StatelessWidget {
 
   IconData _getIconForCommand(CommandType type) {
     switch (type) {
-      case CommandType.ring: return Icons.volume_up;
-      case CommandType.vibrate: return Icons.vibration;
-      case CommandType.message: return Icons.message;
-      case CommandType.lock: return Icons.lock;
-      case CommandType.wipe: return Icons.delete_forever;
-      case CommandType.location: return Icons.location_on;
-      case CommandType.battery: return Icons.battery_charging_full;
-      case CommandType.theftMode: return Icons.warning;
+      case CommandType.ring:
+        return Icons.volume_up;
+      case CommandType.vibrate:
+        return Icons.vibration;
+      case CommandType.message:
+        return Icons.message;
+      case CommandType.lock:
+        return Icons.lock;
+      case CommandType.wipe:
+        return Icons.delete_forever;
+      case CommandType.location:
+        return Icons.location_on;
+      case CommandType.battery:
+        return Icons.battery_charging_full;
+      case CommandType.theftMode:
+        return Icons.warning;
     }
   }
 
   String _getTitleForCommand(CommandType type) {
     switch (type) {
-      case CommandType.ring: return 'Alarma';
-      case CommandType.vibrate: return 'Vibración';
-      case CommandType.message: return 'Mensaje en Pantalla';
-      case CommandType.lock: return 'Bloqueo Remoto';
-      case CommandType.wipe: return 'Borrado Remoto';
-      case CommandType.location: return 'Ubicación Rastreada';
-      case CommandType.battery: return 'Reporte de Batería';
-      case CommandType.theftMode: return 'Modo Robo';
+      case CommandType.ring:
+        return 'Alarma';
+      case CommandType.vibrate:
+        return 'Vibración';
+      case CommandType.message:
+        return 'Mensaje en Pantalla';
+      case CommandType.lock:
+        return 'Bloqueo Remoto';
+      case CommandType.wipe:
+        return 'Borrado Remoto';
+      case CommandType.location:
+        return 'Ubicación Rastreada';
+      case CommandType.battery:
+        return 'Reporte de Batería';
+      case CommandType.theftMode:
+        return 'Modo Robo';
     }
   }
 }

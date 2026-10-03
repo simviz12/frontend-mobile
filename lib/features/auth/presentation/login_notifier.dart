@@ -34,6 +34,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 }
 
-final loginNotifierProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
+final loginNotifierProvider = StateNotifierProvider<LoginNotifier, LoginState>((
+  ref,
+) {
   return LoginNotifier(getIt<LoginUser>());
 });
