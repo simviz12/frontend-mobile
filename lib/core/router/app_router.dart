@@ -5,6 +5,7 @@ import '../../features/devices/presentation/link_device_screen.dart';
 import '../../features/commands/presentation/quick_actions_screen.dart';
 import '../../features/commands/presentation/commands_history_screen.dart';
 import '../../features/theft_mode/presentation/theft_mode_screen.dart';
+import '../../features/settings/presentation/settings_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -43,6 +44,10 @@ final appRouter = GoRouter(
         final deviceName = state.extra as String? ?? 'Dispositivo';
         return TheftModeScreen(deviceId: deviceId, deviceName: deviceName);
       },
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsScreen(),
     ),
   ],
 );
