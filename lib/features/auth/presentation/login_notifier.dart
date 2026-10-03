@@ -28,6 +28,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
       state = LoginState.error(e.toString().replaceAll('Exception: ', ''));
     }
   }
+
+  void logout() {
+    state = const LoginState.initial();
+  }
 }
 
 final loginNotifierProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
