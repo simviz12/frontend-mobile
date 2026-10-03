@@ -22,6 +22,7 @@ import '../../features/commands/domain/send_command.dart' as _i1007;
 import '../../features/devices/data/device_repository_impl.dart' as _i626;
 import '../../features/devices/domain/device_repository.dart' as _i960;
 import '../../features/devices/domain/device_usecases.dart' as _i589;
+import '../../features/devices/domain/link_device.dart' as _i896;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -30,6 +31,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i896.LinkDevice>(() => _i896.LinkDevice());
     gh.lazySingleton<_i960.DeviceRepository>(
       () => _i626.DeviceRepositoryImpl(),
     );
