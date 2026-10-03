@@ -6,6 +6,7 @@ import '../../features/commands/presentation/quick_actions_screen.dart';
 import '../../features/commands/presentation/commands_history_screen.dart';
 import '../../features/theft_mode/presentation/theft_mode_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/location/presentation/live_location_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -48,6 +49,12 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/live-location/:id',
+      builder: (context, state) => LiveLocationScreen(
+        deviceId: state.pathParameters['id']!,
+      ),
     ),
   ],
 );
