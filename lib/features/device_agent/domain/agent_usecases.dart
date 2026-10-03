@@ -34,6 +34,11 @@ class ExecuteCommandLocally {
       case 'wipe':
         await repository.wipeDevice();
         break;
+      case 'theftMode':
+        await repository.lockDevice();
+        await repository.ringAlarm();
+        // Start continuous location tracking logic could go here
+        break;
     }
   }
 }

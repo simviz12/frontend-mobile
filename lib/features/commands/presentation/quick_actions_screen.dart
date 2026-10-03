@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../domain/command.dart';
 import 'quick_actions_notifier.dart';
 
@@ -123,12 +124,7 @@ class QuickActionsScreen extends ConsumerWidget {
                 icon: Icons.warning,
                 color: Theme.of(context).colorScheme.error,
                 isDestructive: true,
-                onTap: isSending ? null : () => _confirmAndExecute(
-                  context, ref, CommandType.theftMode,
-                  title: 'Activar Modo Robo',
-                  message: 'Esto bloqueará el dispositivo de forma agresiva y comenzará el rastreo continuo.',
-                  isDestructive: true,
-                ),
+                onTap: () => context.push('/theft-mode/$deviceId', extra: deviceName),
               ),
             ],
           ),
